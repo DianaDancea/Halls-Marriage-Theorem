@@ -31,6 +31,9 @@ def inputMatrix(rows, columns):
   
   #This prints the matrix 
   matrix = np.array(entries).reshape(rows, columns)
+
+  #Check if input is 0 and 1, if not don't continue 
+  #if not a 0-1 matrix, transform it
   
   return matrix 
 
@@ -52,13 +55,68 @@ def columnSum(matrix, rows, columns):
 
 #This function checks if it is Doubly Stochastic 
 def isDoublyStochastic(): 
+   rowSumArray = rowSum(matrix)
+   columnSumArray = columnSum(matrix, rows, columns)
    doubly = False
+   
+   #Checks the row and column sums of the indiviual rows 
+   for i in rowSumArray:
+      if rowSumArray[i] == 1 and columnSumArray[i] == 1: 
+         doubly = True
+      else: 
+         continue 
    return doubly 
 
+def countEntries(matrix): 
+    countArray = []
+
+    for row in matrix:
+        count = 0
+        for i in range(len(row)):
+            if row[i] == 1:
+                count += 1
+        countArray.append(count)
+
+    return countArray
+  
+'''count = 0
+   countArray = []
+  
+   for j in range(len(matrix[rows, :])):
+      if matrix[rows,j] == 1:
+          count += 1
+      countArray.append(count) 
+           
+   return countArray   '''
+   
+      
+
 #This function checks if Marriage Condition is satisified
-def isMarriageCondition(): 
-   marriage = False
-   return marriage 
+def isMarriageCondition(matrix, rows, columns): 
+   marriage = False 
+   countArray = countEntries(matrix)
+   newMatrix = []
+   newRow = [] 
+
+   #Adding two rows 
+   while True:
+   #i = 1
+    for i in range(len(matrix)-1):
+        #j = i+1
+        print("This is i: ", i)
+        for j in range(i+1,len(matrix)): 
+            #Check if each row has a distinct 1 entry 
+          print("This is j: ", j)
+          #if matrix[i][j] == 1:
+          newRow =[x + y for x, y in zip(matrix[i], matrix[j])]
+          newMatrix.append(newRow)
+          print(newRow)
+    return newMatrix
+            
+'''print(newMatrix)
+ 
+   return marriage'''
+
 
 
 
@@ -83,10 +141,16 @@ rows, columns = getMatrixInfo()
 matrix = inputMatrix(rows, columns)
 rowsum = rowSum(matrix)
 columnsum = columnSum(matrix, rows, columns)
+marriageCondition = isMarriageCondition(matrix, rows, columns)
+#doublyStochastic = isDoublyStochastic() 
+entriesCount = countEntries(matrix)
 
-print("The matrix is:", matrix)
+print("The matrix is: \n ", matrix)
 print("Row Sums: ", rowsum)
 print("Column Sums: ", columnsum)
+print("Marriage Condition: ", marriageCondition)
+#print("Doubly Stochastic: ", doublyStochastic)
+print("Non zero entries count in each row:", entriesCount)
 
 
 
